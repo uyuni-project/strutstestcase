@@ -154,33 +154,38 @@
     </target>
 
     <!-- Run unit tests -->
-    <target name="test" description="run all mock object tests">
+    <target name="test" depends="build" description="run all mock object tests">
         <mkdir dir="${test.dir}"/>
-        <junit printsummary="yes" haltonfailure="no">
-            <sysproperty key="test.dir" value="${test.dir}"/>
-            <sysproperty key="basedir" value="${basedir}"/>
+
+        <!-- Use the JUnit 5.10 Platform Console Standalone -->
+        <!-- https://docs.junit.org/5.10.0/user-guide/index.html#running-tests-console-launcher -->
+        <java fork="true" failonerror="false"
+              classname="org.junit.platform.console.ConsoleLauncher">
             <classpath refid="class.path"/>
             <classpath>
                 <pathelement location="${src.dir}/examples/"/>
                 <pathelement location="${src.dir}/"/>
+                <pathelement location="${lib.dir}/junit-platform-console-standalone-1.10.1.jar"/>
             </classpath>
-            <formatter type="xml"/>
 
-            <batchtest fork="yes" todir="${test.dir}">
-                <fileset dir="${build.dir}">
-                    <include name="**/examples/**/Test*.class"/>
-                    <include name="**/servletunit/struts/Test*.class"/>
-                    <include name="**/tests/**/Test*.class"/>
-                </fileset>
-            </batchtest>
-        </junit>
+            <sysproperty key="test.dir" value="${test.dir}"/>
+            <sysproperty key="basedir" value="${basedir}"/>
 
-        <junitreport todir="${test.dir}">
-            <fileset dir="${test.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${test.dir}"/>
-        </junitreport>
+            <!-- Scan classpath for tests -->
+            <arg value="--scan-classpath"/>
+            <arg value="--classpath"/>
+            <arg value="${build.dir}"/>
+
+            <!-- Include test packages -->
+            <arg value="--include-package"/>
+            <arg value="servletunit.struts"/>
+            <arg value="--include-package"/>
+            <arg value="servletunit.tests"/>
+
+            <!-- Output reports -->
+            <arg value="--reports-dir"/>
+            <arg value="${test.dir}"/>
+        </java>
 
     </target>
 

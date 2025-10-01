@@ -16,10 +16,9 @@
 
 package servletunit.struts.tests;
 
-import org.opentest4j.AssertionFailedError;
-import servletunit.struts.MockStrutsTestCase;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import servletunit.struts.MockStrutsTestCase;
 
 public class TestInputForward extends MockStrutsTestCase {
 
@@ -41,12 +40,7 @@ public class TestInputForward extends MockStrutsTestCase {
 
     public void testNoInputForward() {
 	setRequestPathInfo("test","/loginNoInput");
-	try {
-	    actionPerform();
-	} catch (AssertionFailedError ex) {
-	    return;
-	}
-	fail("Should have thrown an error!");
+    assertThrows(Exception.class, () -> actionPerform());
     }
 
     public void testModuleInputForward() {

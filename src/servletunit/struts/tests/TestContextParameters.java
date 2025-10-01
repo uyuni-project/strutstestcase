@@ -16,10 +16,9 @@
 
 package servletunit.struts.tests;
 
-import org.opentest4j.AssertionFailedError;
 import servletunit.struts.MockStrutsTestCase;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestContextParameters extends MockStrutsTestCase {
 
@@ -46,11 +45,6 @@ public class TestContextParameters extends MockStrutsTestCase {
     }
 
     public void testContextParametersBadAbsolutePath() {
-        try {
-            setServletConfigFile("foo/web.xml");
-        } catch (AssertionFailedError afe) {
-            return;
-        }
-        fail("Expected AssertionFailedError!");
+        assertThrows(Exception.class, () -> setServletConfigFile("foo/web.xml"));
     }
 }

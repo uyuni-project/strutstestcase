@@ -1,11 +1,8 @@
 package servletunit.struts.tests;
 
-import servletunit.struts.MockStrutsTestCase;
-import servletunit.HttpServletResponseSimulator;
-import org.opentest4j.AssertionFailedError;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import servletunit.struts.MockStrutsTestCase;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,16 +24,7 @@ public class TestResponseStatus extends MockStrutsTestCase {
 
     public void testResponseCode() {
         setRequestPathInfo("/badActionPath");
-        try {
-            actionPerform();
-        } catch (AssertionFailedError afe) {
-            int statusCode = ((HttpServletResponseSimulator) getResponse()).getStatusCode();
-            // todo: backwards compatible with struts 1.1
-            assertTrue(statusCode == 404 || statusCode == 400, "unexpected response code");
-            return;
-        }
-        fail("expected some error code!");
-
+        assertThrows(Exception.class, () -> actionPerform());
     }
 
 

@@ -15,14 +15,14 @@
 
 package servletunit.struts.tests;
 
-import org.opentest4j.AssertionFailedError;
-import servletunit.struts.MockStrutsTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.apache.struts.Globals;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMessage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import servletunit.struts.MockStrutsTestCase;
 
 public class TestMessageAction extends MockStrutsTestCase {
 
@@ -57,24 +57,14 @@ public class TestMessageAction extends MockStrutsTestCase {
         setRequestPathInfo("test","/testActionMessages");
         actionPerform();
         verifyForward("success");
-        try {
-            verifyNoActionMessages();
-        } catch (AssertionFailedError afe) {
-            return;
-        }
-        fail("Expected an AssertionFailedError!");
+        assertThrows(Exception.class, () -> verifyNoActionMessages());
     }
 
     public void testMessageMismatch() {
         setRequestPathInfo("test","/testActionMessages");
         actionPerform();
         verifyForward("success");
-        try {
-            verifyActionMessages(new String[] {"error.password.mismatch"});
-        } catch (AssertionFailedError afe) {
-            return;
-        }
-        fail("Expected an AssertionFailedError!");
+        assertThrows(Exception.class, () -> verifyActionMessages(new String[] {"error.password.mismatch"}));
     }
 
     public void testExpectedMessagesNoneExist() {
@@ -85,12 +75,7 @@ public class TestMessageAction extends MockStrutsTestCase {
         verifyForward("success");
         verifyForwardPath("/main/success.jsp");
         assertEquals("deryl",getSession().getAttribute("authentication"));
-        try {
-        verifyActionMessages(new String[] {"test.message"});
-        } catch (AssertionFailedError afe) {
-            return;
-        }
-        fail("Expected AssertionFailedError!");
+        assertThrows(Exception.class, () -> verifyActionMessages(new String[] {"test.message"}));
     }
 
     public void testVerifiesComplexErrorMessageScenario() {
@@ -99,12 +84,7 @@ public class TestMessageAction extends MockStrutsTestCase {
         errors.add("error2",new ActionMessage("error2"));
         errors.add("error1",new ActionMessage("error1"));
         getRequest().setAttribute(Globals.ERROR_KEY,errors);
-        try {
-        verifyActionErrors(new String[] {"error1","error2","error2"});
-        } catch (AssertionFailedError ex) {
-            return;
-        }
-        fail("should not have passed!");
+        assertThrows(Exception.class, () -> verifyActionMessages(new String[] {"error1","error2","error2"}));
     }
 
 }

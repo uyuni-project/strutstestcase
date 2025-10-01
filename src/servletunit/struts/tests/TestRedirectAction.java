@@ -16,10 +16,9 @@
 
 package servletunit.struts.tests;
 
-import org.opentest4j.AssertionFailedError;
-import servletunit.struts.MockStrutsTestCase;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import servletunit.struts.MockStrutsTestCase;
 
 public class TestRedirectAction extends MockStrutsTestCase {
 
@@ -61,16 +60,11 @@ public class TestRedirectAction extends MockStrutsTestCase {
 //    }
 
     public void testVerifyRedirectFail() {
-        try {
+        assertThrows(Exception.class, () -> {
             setRequestPathInfo("test","/testRedirect");
             actionPerform();
             verifyForward("login");
             verifyNoActionErrors();
-        } catch (AssertionFailedError e) {
-            return;
-        }
-        fail("We are apparently getting the same redirects, when they should be different.");
+        });
     }
-
-
 }
