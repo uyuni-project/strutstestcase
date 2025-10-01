@@ -19,20 +19,29 @@ package servletunit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.ServletRegistration.Dynamic;
+import jakarta.servlet.SessionCookieConfig;
+import jakarta.servlet.SessionTrackingMode;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
+
+import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.EventListener;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 /**
  * This class simulates a ServletContext.
@@ -127,7 +136,7 @@ public class ServletContextSimulator implements ServletContext
      * @return          a <code>String</code> containing at least the
      *                  servlet container name and version number
      *
-     * @see javax.servlet.ServletConfig#getInitParameter
+     * @see jakarta.servlet.ServletConfig#getInitParameter
      */
     public String getInitParameter(String s)
     {
@@ -144,7 +153,7 @@ public class ServletContextSimulator implements ServletContext
      *                  objects containing the names of the context's
      *                  initialization parameters
      *
-     * @see javax.servlet.ServletConfig#getInitParameter
+     * @see jakarta.servlet.ServletConfig#getInitParameter
      */
     public Enumeration getInitParameterNames()
     {
@@ -162,9 +171,13 @@ public class ServletContextSimulator implements ServletContext
      *                  parameter
      *
      */
-    public void setInitParameter(String key,String value)
+    public boolean setInitParameter(String key,String value)
     {
-        initParameters.put(key,value);
+        if (initParameters.containsKey(key)) {
+            return false;
+        }
+        initParameters.put(key, value);
+        return true;
     }
 
     /**
@@ -427,16 +440,6 @@ public class ServletContextSimulator implements ServletContext
         throw new UnsupportedOperationException("getServlets operation is not supported!");
     }
 
-    /**
-     * @deprecated  As of Java Servlet API 2.1, use
-     *                      @link ServletContext.log(String message, Throwable throwable)
-     *                      instead.
-     *
-     * <p>This method was originally defined to write an
-     * exception's stack trace and an explanatory error message
-     * to the servlet log file.
-     *
-     */
     public void log(Exception exception, String msg)
     {
         logger.info(msg + "\n" + exception.getClass() + " - " + exception.getMessage());
@@ -511,7 +514,7 @@ public class ServletContextSimulator implements ServletContext
      *
      * <p>Attribute names should follow the same convention as package
      * names. The Java Servlet API specification reserves names
-     * matching <code>java.*</code>, <code>javax.*</code>, and
+     * matching <code>java.*</code>, <code>jakarta.*</code>, and
      * <code>sun.*</code>.
      *
      *
@@ -580,6 +583,177 @@ public class ServletContextSimulator implements ServletContext
 
     public File getContextDirectory() {
         return contextDirectory;
+    }
+
+    @Override
+    public String getContextPath() {
+        throw new UnsupportedOperationException("Unimplemented method 'getContextPath'");
+    }
+
+    @Override
+    public int getEffectiveMajorVersion() {
+        throw new UnsupportedOperationException("Unimplemented method 'getEffectiveMajorVersion'");
+    }
+
+    @Override
+    public int getEffectiveMinorVersion() {
+        throw new UnsupportedOperationException("Unimplemented method 'getEffectiveMinorVersion'");
+    }
+
+    @Override
+    public Dynamic addServlet(String servletName, String className) {
+        throw new UnsupportedOperationException("Unimplemented method 'addServlet'");
+    }
+
+    @Override
+    public Dynamic addServlet(String servletName, Servlet servlet) {
+        throw new UnsupportedOperationException("Unimplemented method 'addServlet'");
+    }
+
+    @Override
+    public Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
+        throw new UnsupportedOperationException("Unimplemented method 'addServlet'");
+    }
+
+    @Override
+    public Dynamic addJspFile(String servletName, String jspFile) {
+        throw new UnsupportedOperationException("Unimplemented method 'addJspFile'");
+    }
+
+    @Override
+    public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException {
+        throw new UnsupportedOperationException("Unimplemented method 'createServlet'");
+    }
+
+    @Override
+    public ServletRegistration getServletRegistration(String servletName) {
+        throw new UnsupportedOperationException("Unimplemented method 'getServletRegistration'");
+    }
+
+    @Override
+    public Map<String, ? extends ServletRegistration> getServletRegistrations() {
+        throw new UnsupportedOperationException("Unimplemented method 'getServletRegistrations'");
+    }
+
+    @Override
+    public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, String className) {
+        throw new UnsupportedOperationException("Unimplemented method 'addFilter'");
+    }
+
+    @Override
+    public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+        throw new UnsupportedOperationException("Unimplemented method 'addFilter'");
+    }
+
+    @Override
+    public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName,
+            Class<? extends Filter> filterClass) {
+        throw new UnsupportedOperationException("Unimplemented method 'addFilter'");
+    }
+
+    @Override
+    public <T extends Filter> T createFilter(Class<T> clazz) throws ServletException {
+        throw new UnsupportedOperationException("Unimplemented method 'createFilter'");
+    }
+
+    @Override
+    public FilterRegistration getFilterRegistration(String filterName) {
+        throw new UnsupportedOperationException("Unimplemented method 'getFilterRegistration'");
+    }
+
+    @Override
+    public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
+        throw new UnsupportedOperationException("Unimplemented method 'getFilterRegistrations'");
+    }
+
+    @Override
+    public SessionCookieConfig getSessionCookieConfig() {
+        throw new UnsupportedOperationException("Unimplemented method 'getSessionCookieConfig'");
+    }
+
+    @Override
+    public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+        throw new UnsupportedOperationException("Unimplemented method 'setSessionTrackingModes'");
+    }
+
+    @Override
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+        throw new UnsupportedOperationException("Unimplemented method 'getDefaultSessionTrackingModes'");
+    }
+
+    @Override
+    public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
+        throw new UnsupportedOperationException("Unimplemented method 'getEffectiveSessionTrackingModes'");
+    }
+
+    @Override
+    public void addListener(String className) {
+        throw new UnsupportedOperationException("Unimplemented method 'addListener'");
+    }
+
+    @Override
+    public <T extends EventListener> void addListener(T t) {
+        throw new UnsupportedOperationException("Unimplemented method 'addListener'");
+    }
+
+    @Override
+    public void addListener(Class<? extends EventListener> listenerClass) {
+        throw new UnsupportedOperationException("Unimplemented method 'addListener'");
+    }
+
+    @Override
+    public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+        throw new UnsupportedOperationException("Unimplemented method 'createListener'");
+    }
+
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        throw new UnsupportedOperationException("Unimplemented method 'getJspConfigDescriptor'");
+    }
+
+    @Override
+    public ClassLoader getClassLoader() {
+        throw new UnsupportedOperationException("Unimplemented method 'getClassLoader'");
+    }
+
+    @Override
+    public void declareRoles(String... roleNames) {
+        throw new UnsupportedOperationException("Unimplemented method 'declareRoles'");
+    }
+
+    @Override
+    public String getVirtualServerName() {
+        throw new UnsupportedOperationException("Unimplemented method 'getVirtualServerName'");
+    }
+
+    @Override
+    public int getSessionTimeout() {
+        throw new UnsupportedOperationException("Unimplemented method 'getSessionTimeout'");
+    }
+
+    @Override
+    public void setSessionTimeout(int sessionTimeout) {
+        throw new UnsupportedOperationException("Unimplemented method 'setSessionTimeout'");
+    }
+
+    @Override
+    public String getRequestCharacterEncoding() {
+        throw new UnsupportedOperationException("Unimplemented method 'getRequestCharacterEncoding'");
+    }
+
+    @Override
+    public void setRequestCharacterEncoding(String encoding) {
+        throw new UnsupportedOperationException("Unimplemented method 'setRequestCharacterEncoding'");
+    }
+
+    @Override
+    public String getResponseCharacterEncoding() {
+        throw new UnsupportedOperationException("Unimplemented method 'getResponseCharacterEncoding'");
+    }
+
+    @Override
+    public void setResponseCharacterEncoding(String encoding) {
+        throw new UnsupportedOperationException("Unimplemented method 'setResponseCharacterEncoding'");
     }
 
 

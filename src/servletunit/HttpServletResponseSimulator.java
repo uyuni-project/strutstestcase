@@ -39,16 +39,25 @@ package servletunit;
 // smpritchard@yahoo.com
 //
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 //  StrutsTestCase - a JUnit extension for testing Struts actions
@@ -69,7 +78,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class HttpServletResponseSimulator implements HttpServletResponse
 {
-    private OutputStream servOStream;       // The non-default javax.servlet.ServletOutputStream
+    private OutputStream servOStream;       // The non-default jakarta.servlet.ServletOutputStream
 
     private boolean calledGetWriter, calledGetOutputStream;
     private StringWriter stringWriter=null;
@@ -182,11 +191,33 @@ public class HttpServletResponseSimulator implements HttpServletResponse
     }
 
     /**
-     * This method is not supported.
+     * Adds a response header with the given name and date.
+     * Date will be converted using pattern "EEE, d MMM yyyy HH:mm:ss z"
+     * on System timezone.
+     *
+     * @param name the name of the header
+     * @param date the date to set in the header
      */
     public void addDateHeader(String name, long date)
     {
-        this.headers.put(name,new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z").format(new Date(date)));
+        this.addDateHeader(name, Instant.ofEpochMilli(date));
+    }
+
+    /**
+     * Adds a response header with the given name and date.
+     * Date will be converted using pattern "EEE, d MMM yyyy HH:mm:ss z"
+     * on System timezone.
+     *
+     * @param name the name of the header
+     * @param instant the date to set in the header
+     */
+    public void addDateHeader(String name, Instant instant)
+    {
+        String format = DateTimeFormatter
+                .ofPattern("EEE, d MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+                .format(ZonedDateTime.ofInstant(instant, ZoneId.systemDefault()));
+
+        this.headers.put(name,format);
     }
 
     /**
@@ -206,6 +237,19 @@ public class HttpServletResponseSimulator implements HttpServletResponse
         return (String) headers.get(name);
     else
         return null;
+    }
+
+    @Override
+    public Collection<String> getHeaders(String sIn) {
+        if (!headers.containsKey(sIn)) {
+            return List.of();
+        }
+        return List.of((String) headers.get(sIn));
+    }
+
+    @Override
+    public Collection<String> getHeaderNames() {
+        return headers.keySet();
     }
 
     /**
@@ -645,6 +689,15 @@ public class HttpServletResponseSimulator implements HttpServletResponse
         return message;
     }
 
+    @Override
+    public void setContentLengthLong(long lIn) {
+        this.contentLength = (int) lIn;
+    }
+
+    @Override
+    public int getStatus() {
+        return this.status;
+    }
 
 }
 

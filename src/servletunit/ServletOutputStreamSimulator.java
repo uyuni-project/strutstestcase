@@ -16,7 +16,9 @@ package servletunit;
 //
 //  You may view the full text here: http://www.apache.org/LICENSE.txt
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -52,5 +54,15 @@ public class ServletOutputStreamSimulator extends ServletOutputStream
 		System.err.println("IOException: " + io.getMessage());
 		io.printStackTrace();
 	    }
+    }
+
+    @Override
+    public boolean isReady() {
+        throw new UnsupportedOperationException("Method isReady() not implemented.");
+    }
+
+    @Override
+    public void setWriteListener(WriteListener writeListenerIn) {
+        throw new UnsupportedOperationException("Method setWriteListener(WriteListener writeListenerIn) not implemented.");
     }
 }

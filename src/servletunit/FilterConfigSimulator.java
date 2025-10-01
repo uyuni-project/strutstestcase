@@ -16,8 +16,8 @@
 
 package servletunit;
 
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
 import java.util.Enumeration;
 
 //  StrutsTestCase - a JUnit extension for testing Struts actions

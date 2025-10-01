@@ -16,7 +16,7 @@ package servletunit;
 //
 //  You may view the full text here: http://www.apache.org/LICENSE.txt
 
-import javax.servlet.*;
+import jakarta.servlet.*;
 import java.io.IOException;
 
 /**

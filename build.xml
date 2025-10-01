@@ -4,8 +4,8 @@
 
     <!-- set the release version -->
     <property name="major.version" value="0"/>
-    <property name="minor.version" value="1"/>
-    <property name="point.version" value="1"/>
+    <property name="minor.version" value="0"/>
+    <property name="point.version" value="2"/>
     <property name="release.version" value="${major.version}${minor.version}${point.version}"/>
     <property name="jar.name" value="strutstest-uyuni-${major.version}.${minor.version}.${point.version}.jar"/>
 
@@ -29,48 +29,22 @@
     <property name="temp.dir" value="${basedir}/temp"/>
     <property name="lib.dir" value="${basedir}/lib"/>
 
-    <!-- set class.path to use with javac/jikes -->
-
     <!-- ====================== Build Targets ====================== -->
 
     <!-- intialize build -->
     <target name="init">
-        <condition property="servlet.version" value="2.2">
-            <isset property="build_2.2"/>
-        </condition>
-        <condition property="servlet.version" value="2.4">
-            <isset property="build_2.4"/>
-        </condition>
-	<condition property="servlet.version" value="2.3">
-	    <and>
-	       <not><isset property="build_2.2"/></not>
-	       <not><isset property="build_2.4"/></not>
-	    </and>
-	</condition>
-	<condition property="build_2.3" value="true">
-            <and>
-               <not><isset property="build_2.2"/></not>
-               <not><isset property="build_2.4"/></not>
-            </and>
-        </condition>
-        <echo message="servlet version = ${servlet.version}"/>
-        <property name="struts.version" value="1.2"/>
-	<path id="class.path">
-        <fileset dir="${lib.dir}">
-            <include name="*.jar"/>
-            <include name="*.zip"/>
-            <exclude name="servletapi-2.3.jar" if="build_2.2"/>
-            <exclude name="servletapi-2.4.jar" if="build_2.2"/>
-            <exclude name="servletapi-2.2.jar" if="build_2.3"/>
-            <exclude name="servletapi-2.4.jar" if="build_2.3"/>
-            <exclude name="servletapi-2.2.jar" if="build_2.4"/>
-            <exclude name="servletapi-2.3.jar" if="build_2.4"/>
-        </fileset>
-        <pathelement location="${build.dir}"/>
-    </path>
+        <echo message="Using Jakarta Servlet API (jakarta.servlet) and Struts Framework (struts)"/>
+        <property name="servlet.version" value="5.0.0"/>
+        <property name="struts.version" value="1.2.9"/>
+        <path id="class.path">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+                <include name="*.zip"/>
+            </fileset>
+            <pathelement location="${build.dir}"/>
+        </path>
     </target>
 
-    <!-- Compile the application classes -->
     <target name="build" depends="init" description="compile all Java classes">
         <mkdir dir="${build.dir}"/>
 
@@ -85,7 +59,6 @@
             fork="true">
             <classpath refid="class.path"/>
             <include name="**/*.java"/>
-            <excludesfile name="excludes-${struts.version}-${servlet.version}"/>
         </javac>
     </target>
 

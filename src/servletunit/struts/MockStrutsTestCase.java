@@ -31,11 +31,11 @@ import servletunit.ServletContextSimulator;
 
 import java.io.*;
 import java.net.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.http.HttpSession;
 
 import static org.junit.jupiter.api.Assertions.fail;
 

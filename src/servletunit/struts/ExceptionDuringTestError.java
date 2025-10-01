@@ -16,7 +16,7 @@
 package servletunit.struts;
 
 import java.io.*;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 /**
  * <p>Title: ExceptionDuringTestError</p>
  * <p>Description: An error indicating an uncaught exception

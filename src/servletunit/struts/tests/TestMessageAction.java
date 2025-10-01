@@ -84,7 +84,7 @@ public class TestMessageAction extends MockStrutsTestCase {
         errors.add("error2",new ActionMessage("error2"));
         errors.add("error1",new ActionMessage("error1"));
         getRequest().setAttribute(Globals.ERROR_KEY,errors);
-        assertThrows(Exception.class, () -> verifyActionMessages(new String[] {"error1","error2","error2"}));
+        assertThrows(Exception.class, () -> verifyActionErrors(new String[] {"error1","error2","error2"}));
     }
 
 }
