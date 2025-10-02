@@ -67,19 +67,9 @@ public class StrutsResponseWrapper implements HttpServletResponse
         return this.response.containsHeader(name);
     }
 
-    public String encodeRedirectUrl(String url)
-    {
-        return this.response.encodeRedirectUrl(url);
-    }
-
     public String encodeRedirectURL(String url)
     {
         return this.response.encodeRedirectURL(url);
-    }
-
-    public String encodeUrl(String url)
-    {
-        return this.response.encodeUrl(url);
     }
 
     public String encodeURL(String url)
@@ -183,11 +173,6 @@ public class StrutsResponseWrapper implements HttpServletResponse
         this.response.setStatus(sc);
     }
 
-    public void setStatus(int sc, String sm)
-    {
-        this.response.setStatus(sc,sm);
-    }
-
     public void setLocale(Locale loc)
     {
         this.response.setLocale(loc);
@@ -230,6 +215,15 @@ public class StrutsResponseWrapper implements HttpServletResponse
     @Override
     public String getContentType() {
         return this.response.getContentType();
+    }
+
+    @Override
+    public void sendRedirect(String location, int sc, boolean clearBuffer) throws IOException {
+        if (clearBuffer) {
+            reset();
+        }
+        setStatus(sc);
+        sendRedirect(location);
     }
 
 }

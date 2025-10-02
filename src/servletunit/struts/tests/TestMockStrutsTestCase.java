@@ -48,11 +48,11 @@ public class TestMockStrutsTestCase extends MockStrutsTestCase {
     public void testSetContextDirectory() {
         File file = new File(System.getProperty("basedir"));
         setContextDirectory(file);
-        assertEquals(new File(file,"test.html").getAbsolutePath(),getRequest().getRealPath("/test.html"));
+        assertEquals(new File(file,"test.html").getAbsolutePath(),getRequest().getServletContext().getRealPath("/test.html"));
     }
 
     public void testGetRealPathNotSet() {
-        assertNull(getRequest().getRealPath("/test.html"));
+        assertNull(getRequest().getServletContext().getRealPath("/test.html"));
     }
 
 }

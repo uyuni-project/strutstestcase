@@ -19,6 +19,7 @@ import java.util.Vector;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -1445,6 +1446,21 @@ public class HttpServletRequestSimulator implements HttpServletRequest
     @Override
     public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) {
         throw new UnsupportedOperationException("Unimplemented method 'upgrade'");
+    }
+
+    @Override
+    public String getRequestId() {
+        throw new UnsupportedOperationException("Unimplemented method 'getRequestId'");
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        throw new UnsupportedOperationException("Unimplemented method 'getProtocolRequestId'");
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        throw new UnsupportedOperationException("Unimplemented method 'getServletConnection'");
     }
 
 }

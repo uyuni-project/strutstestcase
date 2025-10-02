@@ -699,5 +699,15 @@ public class HttpServletResponseSimulator implements HttpServletResponse
         return this.status;
     }
 
+    @Override
+    public void sendRedirect(String location, int sc, boolean clearBuffer) throws IOException {
+        if (clearBuffer) {
+            reset();
+        }
+        setStatus(sc);
+        setHeader("Location", location);
+        
+    }
+
 }
 

@@ -2,7 +2,6 @@ package servletunit;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -70,14 +69,6 @@ public class HttpSessionSimulator implements HttpSession
     {
         checkValid();
         return -1;
-    }
-
-    /**
-     * This method is not supported.
-     */
-    public HttpSessionContext getSessionContext()
-    {
-        throw new UnsupportedOperationException("getSessionContext not supported!");
     }
 
     public Object getValue(String s) throws IllegalStateException
