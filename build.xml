@@ -95,17 +95,15 @@
     </target>
 
     <!-- Generate Javadocs for the application -->
-    <target name="docs" description="compile documentation for all Java classes">
+    <target name="docs" depends="build" description="compile documentation for all Java classes">
         <mkdir dir="${doc.dir}/api"/>
         <copy file="${basedir}/howto.htm" toDir="${doc.dir}"/>
         <copy file="${basedir}/faq.htm" toDir="${doc.dir}"/>
         <copy file="${basedir}/stylesheet.css" toDir="${doc.dir}"/>
         <copy file="${basedir}/LICENSE.TXT" toDir="${distribute.dir}"/>
-        <copy file="${basedir}/README.TXT" toDir="${distribute.dir}"/>
+        <copy file="${basedir}/README.md" toDir="${distribute.dir}"/>
         <mkdir dir="${distribute.dir}/examples"/>
-        <copy todir="${distribute.dir}/examples">
-            <fileset dir="${src.dir}/examples" excludes="**/tiles*.xml"/>
-        </copy>
+
         <javadoc packagenames="servletunit,servletunit.struts"
             sourcepath="${src.dir}"
             destdir="${doc.dir}/api"
@@ -115,6 +113,7 @@
             windowtitle="StrutsTestCase Documentation"
             doctitle="&lt;H1&gt;StrutsTestCase for JUnit&lt;/H1&gt;"
             bottom="&lt;i&gt;Copyright &#169; Deryl Seale All Rights Reserved.&lt;/i&gt;">
+            <classpath refid="class.path"/>
             <group title="StrutsTestCase for JUnit" packages="servletunit.struts"/>
             <group title="ServletUnit Mock Object Framework" packages="servletunit"/>
             <!-- Put in links to JDK classes -->
@@ -123,7 +122,7 @@
             <link offline="false"
                 href="https://jakarta.ee/specifications/servlet/6.1/apidocs/"/>
         </javadoc>
-        <copy todir="${distribute.dir}/examples" file="test.war"/>
+
     </target>
 
     <!-- Run unit tests -->
