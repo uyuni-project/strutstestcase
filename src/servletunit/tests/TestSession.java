@@ -19,7 +19,7 @@
 //import junit.framework.TestCase;
 //import servletunit.HttpServletRequestSimulator;
 //
-//import javax.servlet.http.HttpSession;
+//import jakarta.servlet.http.HttpSession;
 //
 //public class TestSession extends TestCase {
 //

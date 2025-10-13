@@ -16,8 +16,8 @@ package servletunit;
 //
 //  You may view the full text here: http://www.apache.org/LICENSE.txt
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import java.util.Enumeration;
 import java.util.Hashtable;
 

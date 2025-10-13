@@ -16,12 +16,14 @@
 
 package servletunit.struts;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Locale;
+
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * A wrapper for the HttpServletResponse class.  This is used in
@@ -65,19 +67,9 @@ public class StrutsResponseWrapper implements HttpServletResponse
         return this.response.containsHeader(name);
     }
 
-    public String encodeRedirectUrl(String url)
-    {
-        return this.response.encodeRedirectUrl(url);
-    }
-
     public String encodeRedirectURL(String url)
     {
         return this.response.encodeRedirectURL(url);
-    }
-
-    public String encodeUrl(String url)
-    {
-        return this.response.encodeUrl(url);
     }
 
     public String encodeURL(String url)
@@ -181,11 +173,6 @@ public class StrutsResponseWrapper implements HttpServletResponse
         this.response.setStatus(sc);
     }
 
-    public void setStatus(int sc, String sm)
-    {
-        this.response.setStatus(sc,sm);
-    }
-
     public void setLocale(Locale loc)
     {
         this.response.setLocale(loc);
@@ -193,6 +180,50 @@ public class StrutsResponseWrapper implements HttpServletResponse
 
     public String getRedirectLocation() {
         return this.redirectLocation;
+    }
+
+    @Override
+    public int getStatus() {
+        return this.response.getStatus();
+    }
+
+    @Override
+    public String getHeader(String s) {
+        return this.response.getHeader(s);
+    }
+
+    @Override
+    public java.util.Collection<String> getHeaders(String s) {
+        return this.response.getHeaders(s);
+    }
+
+    @Override
+    public Collection<String> getHeaderNames() {
+        return this.response.getHeaderNames();
+    }
+
+    @Override
+    public void setContentLengthLong(long l) {
+        this.response.setContentLengthLong(l);
+    }
+
+    @Override
+    public void setCharacterEncoding(String s) {
+        this.response.setCharacterEncoding(s);
+    }
+
+    @Override
+    public String getContentType() {
+        return this.response.getContentType();
+    }
+
+    @Override
+    public void sendRedirect(String location, int sc, boolean clearBuffer) throws IOException {
+        if (clearBuffer) {
+            reset();
+        }
+        setStatus(sc);
+        sendRedirect(location);
     }
 
 }

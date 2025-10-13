@@ -16,7 +16,7 @@
 package servletunit.struts.tests;
 
 import org.apache.struts.action.*;
-import javax.servlet.http.*;
+import jakarta.servlet.http.*;
 
 /**
  *  An action that always throws a NullPointerException for use in testing

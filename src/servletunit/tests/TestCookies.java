@@ -19,7 +19,7 @@
 //import junit.framework.TestCase;
 //import servletunit.HttpServletRequestSimulator;
 //
-//import javax.servlet.http.Cookie;
+//import jakarta.servlet.http.Cookie;
 //
 //public class TestCookies extends TestCase {
 //

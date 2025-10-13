@@ -7,7 +7,7 @@ package servletunit.struts.tests;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class ComplexForm extends ActionForm {
 

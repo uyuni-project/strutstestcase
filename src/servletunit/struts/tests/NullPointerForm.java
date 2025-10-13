@@ -1,7 +1,7 @@
 package servletunit.struts.tests;
 
 import org.apache.struts.action.*;
-import javax.servlet.http.*;
+import jakarta.servlet.http.*;
 
 /**
  * An Action Form that always throws a NullPointerAction during validation.

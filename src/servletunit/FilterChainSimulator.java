@@ -16,9 +16,9 @@
 
 package servletunit;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  *  A unit testing tool for simulating a FilterChain <p>
@@ -47,10 +47,10 @@ public class FilterChainSimulator implements FilterChain {
      *
      * @param  parm1    The request
      * @param  parm2    The response
-     * @exception  javax.servlet.ServletException
+     * @exception  jakarta.servlet.ServletException
      * @exception  java.io.IOException             Description of the Exception
      */
-    public void doFilter(ServletRequest parm1, ServletResponse parm2) throws javax.servlet.ServletException, java.io.IOException {
+    public void doFilter(ServletRequest parm1, ServletResponse parm2) throws jakarta.servlet.ServletException, java.io.IOException {
         request = parm1;
         response = parm2;
         doFilterCalled = true;

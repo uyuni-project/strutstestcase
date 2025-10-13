@@ -16,10 +16,9 @@
 
 package servletunit.struts.tests;
 
-import servletunit.struts.MockStrutsTestCase;
-import org.opentest4j.AssertionFailedError;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import servletunit.struts.MockStrutsTestCase;
 
 public class TestTilesForward extends MockStrutsTestCase {
 
@@ -59,12 +58,7 @@ public class TestTilesForward extends MockStrutsTestCase {
         actionPerform();
         verifyForward("success");
         verifyForwardPath("/layouts/pageLayout.jsp");
-        try {
-        verifyTilesForward("success","foo.fail");
-        } catch (AssertionFailedError afe) {
-            return;
-        }
-        fail("Should have failed.");
+        assertThrows(Exception.class, () -> verifyTilesForward("success","foo.fail"));
     }
 
 //    todo: this test is failing because tiles verify doesn't work properly

@@ -1,20 +1,36 @@
 package servletunit;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.*;
-import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Vector;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 
 //  StrutsTestCase - a JUnit extension for testing Struts actions
@@ -144,7 +160,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
      * <p> Attributes can be set two ways.  The servlet container may set
      * attributes to make available custom information about a request.
      * For example, for requests made using HTTPS, the attribute
-     * <code>javax.servlet.request.X509Certificate</code> can be used to
+     * <code>jakarta.servlet.request.X509Certificate</code> can be used to
      * retrieve information on the certificate of the client.  Attributes
      * can also be set programatically using
      * {@link ServletRequest#setAttribute}.  This allows information to be
@@ -152,7 +168,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
      *
      * <p>Attribute names should follow the same conventions as package
      * names. This specification reserves names matching <code>java.*</code>,
-     * <code>javax.*</code>, and <code>sun.*</code>.
+     * <code>jakarta.*</code>, and <code>sun.*</code>.
      *
      * @param s	a <code>String</code> specifying the name of
      *			the attribute
@@ -676,12 +692,6 @@ public class HttpServletRequestSimulator implements HttpServletRequest
         throw new UnsupportedOperationException("getReader operation is not supported!");
     }
 
-    /**
-     *
-     * @deprecated 	As of Version 2.1 of the Java Servlet API,
-     * 			use {@link ServletContext#getRealPath} instead.
-     *
-     */
     public String getRealPath(String path)
     {
         File contextDirectory = ((ServletContextSimulator) context).getContextDirectory();
@@ -992,13 +1002,6 @@ public class HttpServletRequestSimulator implements HttpServletRequest
         return true;
     }
 
-    /**
-     *
-     * @deprecated		As of Version 2.1 of the Java Servlet
-     *				API, use {@link #isRequestedSessionIdFromURL}
-     *				instead.
-     *
-     */
     public boolean isRequestedSessionIdFromUrl()
     {
         return isRequestedSessionIdFromURL();
@@ -1096,7 +1099,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
      *
      * <p>Attribute names should follow the same conventions as
      * package names. Names beginning with <code>java.*</code>,
-     * <code>javax.*</code>, and <code>com.sun.*</code>, are
+     * <code>jakarta.*</code>, and <code>com.sun.*</code>, are
      * reserved for use by Sun Microsystems.
      *
      *
@@ -1117,7 +1120,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
      *
      * <p>Attribute names should follow the same conventions as
      * package names. Names beginning with <code>java.*</code>,
-     * <code>javax.*</code>, and <code>com.sun.*</code>, are
+     * <code>jakarta.*</code>, and <code>com.sun.*</code>, are
      * reserved for use by Sun Microsystems.
      *<br> If the value passed in is null, the effect is the same as
      * calling {@link #removeAttribute}.
@@ -1369,5 +1372,95 @@ public class HttpServletRequestSimulator implements HttpServletRequest
         this.localPort = localPort;
     }
 
+    @Override
+    public long getContentLengthLong() {
+        return getContentLength();
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        return context;
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        throw new UnsupportedOperationException("Unimplemented method 'startAsync'");
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
+            throws IllegalStateException {
+        throw new UnsupportedOperationException("Unimplemented method 'startAsync'");
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        return false;
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        return false;
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        throw new UnsupportedOperationException("Unimplemented method 'getAsyncContext'");
+    }
+
+    @Override
+    public DispatcherType getDispatcherType() {
+        return DispatcherType.REQUEST;
+    }
+
+    @Override
+    public String changeSessionId() {
+        throw new UnsupportedOperationException( "Unimplemented method 'changeSessionId'");
+    }
+
+    @Override
+    public boolean authenticate(HttpServletResponse response) {
+        throw new UnsupportedOperationException("Unimplemented method 'authenticate'");
+    }
+
+    @Override
+    public void login(String username, String password) throws ServletException {
+        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    }
+
+    @Override
+    public void logout() {
+        throw new UnsupportedOperationException("Unimplemented method 'logout'");
+    }
+
+    @Override
+    public Collection<Part> getParts() {
+        throw new UnsupportedOperationException("Unimplemented method 'getParts'");
+    }
+
+    @Override
+    public Part getPart(String name) {
+        throw new UnsupportedOperationException("Unimplemented method 'getPart'");
+    }
+
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) {
+        throw new UnsupportedOperationException("Unimplemented method 'upgrade'");
+    }
+
+    @Override
+    public String getRequestId() {
+        throw new UnsupportedOperationException("Unimplemented method 'getRequestId'");
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        throw new UnsupportedOperationException("Unimplemented method 'getProtocolRequestId'");
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        throw new UnsupportedOperationException("Unimplemented method 'getServletConnection'");
+    }
 
 }

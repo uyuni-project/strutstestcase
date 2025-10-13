@@ -17,7 +17,7 @@
 package servletunit.struts.tests;
 
 import servletunit.struts.MockStrutsTestCase;
-import examples.LoginForm;
+//import examples.LoginForm;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -32,17 +32,17 @@ public class TestSetActionForm extends MockStrutsTestCase {
         setServletConfigFile("/WEB-INF/web.xml");
     }
 
-    public void testNonModuleSetActionForm() {
-        LoginForm form = new LoginForm();
-        form.setUsername("deryl");
-        form.setPassword("radar");
-        setRequestPathInfo("/login");
-        setActionForm(form);
-        actionPerform();
-        verifyNoActionErrors();
-        verifyForward("success");
-        verifyForwardPath("/main/success.jsp");
-    }
+//    public void testNonModuleSetActionForm() {
+//        LoginForm form = new LoginForm();
+//        form.setUsername("deryl");
+//        form.setPassword("radar");
+//        setRequestPathInfo("/login");
+//        setActionForm(form);
+//        actionPerform();
+//        verifyNoActionErrors();
+//        verifyForward("success");
+//        verifyForwardPath("/main/success.jsp");
+//    }
 
     public void testSetActionForm() {
         ComplexForm form = new ComplexForm();

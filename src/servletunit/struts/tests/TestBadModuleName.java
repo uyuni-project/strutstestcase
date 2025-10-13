@@ -1,9 +1,8 @@
 package servletunit.struts.tests;
 
-import org.opentest4j.AssertionFailedError;
-import servletunit.struts.MockStrutsTestCase;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import servletunit.struts.MockStrutsTestCase;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,17 +24,14 @@ public class TestBadModuleName extends MockStrutsTestCase {
     }
 
     public void testBadName() {
-        try {
-        addRequestParameter("username","deryl");
-        addRequestParameter("password","radar");
-        setRequestPathInfo("doesnotexist","/tilesForward");
-        actionPerform();
-        verifyForward("success");
-        verifyForwardPath("/layouts/pageLayout.jsp");
-        } catch (AssertionFailedError afe) {
-            return;
-        }
-        fail("Should have thrown a JUnit error!");
+        assertThrows(Exception.class, () -> {
+            addRequestParameter("username", "deryl");
+            addRequestParameter("password", "radar");
+            setRequestPathInfo("doesnotexist", "/tilesForward");
+            actionPerform();
+            verifyForward("success");
+            verifyForwardPath("/layouts/pageLayout.jsp");
+        });
     }
 
 }
